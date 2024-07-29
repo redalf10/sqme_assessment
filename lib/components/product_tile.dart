@@ -31,6 +31,9 @@ class ProductTile extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
                 context.read<Shop>().addToCart(product);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('${product.name} added to your cart')),
+                );
               },
               child: const Text('Yes'),
             ),
@@ -45,7 +48,6 @@ class ProductTile extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          width: 350,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
@@ -62,7 +64,7 @@ class ProductTile extends StatelessWidget {
                     product.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 25,
+                      fontSize: 20,
                     ),
                   ),
                   Text(
@@ -76,7 +78,12 @@ class ProductTile extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('(${product.qty.toString()} items left)'),
+                  Text(
+                    '(${product.qty.toString()} items left)',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -85,7 +92,7 @@ class ProductTile extends StatelessWidget {
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.inversePrimary,
                           fontWeight: FontWeight.bold,
-                          fontSize: 15,
+                          fontSize: 14,
                         ),
                       ),
                     ],

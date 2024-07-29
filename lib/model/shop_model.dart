@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, use_build_context_synchronously
 
 import 'package:assessment/services/database_helper.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +43,10 @@ class Shop extends ChangeNotifier {
               Navigator.pop(context);
               await _databaseHelper.deleteProduct(product.id!);
               await _loadProducts();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text('${product.name} deleted to product list')),
+              );
             },
             child: const Text('Yes'),
           ),

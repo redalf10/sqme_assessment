@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:assessment/model/product_model.dart';
@@ -22,7 +24,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2, // Increment the version
+      version: 3, // Increment the version
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -48,6 +50,21 @@ class DatabaseHelper {
         address TEXT
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE orders(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        phone TEXT,
+        email TEXT,
+        address TEXT,
+        order_details TEXT,
+        total REAL,
+        cash REAL,
+        change REAL,
+        timestamp TEXT
+      )
+    ''');
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -59,6 +76,22 @@ class DatabaseHelper {
           phone TEXT,
           email TEXT,
           address TEXT
+        )
+      ''');
+    }
+    if (oldVersion < 3) {
+      await db.execute('''
+        CREATE TABLE orders(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          phone TEXT,
+          email TEXT,
+          address TEXT,
+          order_details TEXT,
+          total REAL,
+          cash REAL,
+          change REAL,
+          timestamp TEXT
         )
       ''');
     }
@@ -118,5 +151,35 @@ class DatabaseHelper {
       };
     }
     return {};
+  }
+
+  Future<void> insertOrder({
+    required String name,
+    required String phone,
+    required String email,
+    required String address,
+    required Map<String, int> orderDetails,
+    required double total,
+    required double cash,
+    required double change,
+    required String timestamp,
+  }) async {
+    final db = await database;
+    await db.insert('orders', {
+      'name': name,
+      'phone': phone,
+      'email': email,
+      'address': address,
+      'order_details': jsonEncode(orderDetails),
+      'total': total,
+      'cash': cash,
+      'change': change,
+      'timestamp': timestamp,
+    });
+  }
+
+  Future<List<Map<String, dynamic>>> getOrderHistory() async {
+    final db = await database;
+    return await db.query('orders');
   }
 }

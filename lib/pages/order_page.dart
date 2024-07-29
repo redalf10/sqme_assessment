@@ -82,7 +82,12 @@ class OrderPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text('Order'),
+        title: Text(
+          'Order',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -107,12 +112,25 @@ class OrderPage extends StatelessWidget {
                       final itemTotalPrice = product.price * quantity;
 
                       return ListTile(
-                        title: Text(productName),
+                        title: Text(
+                          '$quantity $productName',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         subtitle: Text(
-                            'Quantity: $quantity\nPrice: ₱${itemTotalPrice.toStringAsFixed(2)}'),
+                          'Price: ₱${itemTotalPrice.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
+                        ),
                         trailing: IconButton(
                           onPressed: () => removeItemFromCart(context, product),
-                          icon: const Icon(Icons.remove_circle),
+                          icon: Icon(
+                            Icons.remove_circle,
+                            color: Theme.of(context).colorScheme.inversePrimary,
+                          ),
                         ),
                       );
                     },
@@ -134,11 +152,17 @@ class OrderPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(50.0),
                   child: ShopButton(
-                    onTap: () => _showPersonalInfoForm(context),
-                    child: const Text(
+                    onTap: () => cart.isEmpty
+                        ? ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Add order item first')),
+                          )
+                        : _showPersonalInfoForm(context),
+                    child: Text(
                       'CHECK OUT',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.inversePrimary,
                       ),
                     ),
                   ),

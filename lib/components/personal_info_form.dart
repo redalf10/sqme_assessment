@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
+import 'package:assessment/components/shop_button.dart';
 import 'package:assessment/pages/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,20 +42,31 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Personal Information'),
+      title: Text('Personal Information',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.inversePrimary,
+          )),
       content: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             children: [
               TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
                 controller: _nameController,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  hintText: 'Name',
-                ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    hintText: 'Name',
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    )),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z\s]+$')),
                 ],
@@ -67,12 +79,21 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
               ),
               const SizedBox(height: 5),
               TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
                 controller: _phoneController,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   fillColor: Theme.of(context).colorScheme.secondary,
                   filled: true,
                   hintText: 'Phone Number',
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
                 ),
                 keyboardType: TextInputType.phone,
                 inputFormatters: [
@@ -91,12 +112,21 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
               ),
               const SizedBox(height: 5),
               TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
                 controller: _emailController,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   fillColor: Theme.of(context).colorScheme.secondary,
                   filled: true,
                   hintText: 'Email Address',
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -108,12 +138,21 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
               ),
               const SizedBox(height: 5),
               TextFormField(
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
                 controller: _addressController,
                 decoration: InputDecoration(
-                  border: InputBorder.none,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   fillColor: Theme.of(context).colorScheme.secondary,
                   filled: true,
                   hintText: 'Address',
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -127,12 +166,18 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
         ),
       ),
       actions: [
-        MaterialButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+        ShopButton(
+          onTap: () => Navigator.pop(context),
+          child: Text(
+            'Cancel',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.inversePrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
-        MaterialButton(
-          onPressed: () async {
+        ShopButton(
+          onTap: () async {
             if (_formKey.currentState?.validate() ?? false) {
               final name = _nameController.text;
               final phone = _phoneController.text;
@@ -165,7 +210,13 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
               );
             }
           },
-          child: const Text('Submit'),
+          child: Text(
+            'Submit',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.inversePrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
     );

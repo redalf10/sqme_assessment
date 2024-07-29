@@ -1,3 +1,4 @@
+import 'package:assessment/pages/history_page.dart';
 import 'package:assessment/pages/quantity_page.dart';
 import 'package:assessment/theme/light_mode.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,10 @@ class MyAssessment extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightMode,
+        darkTheme: darkMode,
         home: const WelcomePage(),
         routes: {
-          // '/historyPage': (context) => const HistoryPage(),
+          '/historyPage': (context) => const HistoryPage(),
           '/quantityPage': (context) => const QuantityPage(),
           '/orderPage': (context) => const OrderPage(),
           '/shopPage': (context) => const ShopPage(),

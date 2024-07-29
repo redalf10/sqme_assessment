@@ -1,8 +1,11 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:assessment/components/drawer.dart';
 import 'package:assessment/components/shop_button.dart';
 import 'package:assessment/model/shop_model.dart';
 import 'package:assessment/model/product_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
@@ -27,66 +30,150 @@ class QuantityPage extends StatelessWidget {
 
   void addProduct(BuildContext context) {
     final shop = context.read<Shop>();
+    final _formKey = GlobalKey<FormState>();
+    String name = '';
+    String description = '';
+    double price = 0.0;
+    int qty = 0;
+
     showDialog(
       context: context,
       builder: (context) {
-        String name = '';
-        String description = '';
-        double price = 0.0;
-        int qty = 0;
-
         return AlertDialog(
-          title: const Text('Add Product'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  hintText: 'Product Name',
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text('Add Product',
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                  fontWeight: FontWeight.bold)),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  maxLength: 30,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    hintText: 'Product Name',
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                  onChanged: (value) => name = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a product name';
+                    }
+                    return null;
+                  },
                 ),
-                onChanged: (value) => name = value,
-              ),
-              const SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  hintText: 'Description',
+                const SizedBox(height: 5),
+                TextFormField(
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  maxLength: 55,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    hintText: 'Description',
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                  onChanged: (value) => description = value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    return null;
+                  },
                 ),
-                onChanged: (value) => description = value,
-              ),
-              const SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  hintText: 'Price (₱)',
+                const SizedBox(height: 5),
+                TextFormField(
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    hintText: 'Price (₱)',
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) => price = double.tryParse(value) ?? 0.0,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a price';
+                    }
+                    if (double.tryParse(value) == null ||
+                        double.parse(value) <= 0) {
+                      return 'Please enter a valid price';
+                    }
+                    return null;
+                  },
                 ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) => price = double.tryParse(value) ?? 0.0,
-              ),
-              const SizedBox(height: 5),
-              TextFormField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  fillColor: Theme.of(context).colorScheme.secondary,
-                  filled: true,
-                  hintText: 'Quantity',
+                const SizedBox(height: 5),
+                TextFormField(
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.inversePrimary,
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    fillColor: Theme.of(context).colorScheme.secondary,
+                    filled: true,
+                    hintText: 'Quantity',
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                    ),
+                  ),
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) => qty = int.tryParse(value) ?? 0,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a quantity';
+                    }
+                    if (int.tryParse(value) == null || int.parse(value) <= 0) {
+                      return 'Please enter a valid quantity';
+                    }
+                    return null;
+                  },
                 ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) => qty = int.tryParse(value) ?? 0,
-              ),
-            ],
+              ],
+            ),
           ),
           actions: [
             ShopButton(
               onTap: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
             ),
             ShopButton(
               onTap: () {
@@ -100,9 +187,22 @@ class QuantityPage extends StatelessWidget {
                       price: price,
                       qty: qty));
                   Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Added Successfully')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Fill up all fields')),
+                  );
                 }
               },
-              child: const Text('Add'),
+              child: Text(
+                'Add',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
+              ),
             ),
           ],
         );
@@ -118,7 +218,12 @@ class QuantityPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text('Quantity'),
+        title: Text(
+          'Quantity',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
+        ),
       ),
       drawer: const MyDrawer(),
       body: Column(
@@ -145,6 +250,13 @@ class QuantityPage extends StatelessWidget {
                               motion: const StretchMotion(),
                               children: [
                                 SlidableAction(
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
                                   spacing: 1,
                                   onPressed: (context) {
                                     context
@@ -158,12 +270,24 @@ class QuantityPage extends StatelessWidget {
                             child: Container(
                               margin: const EdgeInsets.only(bottom: 5),
                               padding: const EdgeInsets.all(10),
-                              color: Theme.of(context).colorScheme.secondary,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(product.name),
+                                  Expanded(
+                                    child: Text(
+                                      product.name,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .inversePrimary,
+                                      ),
+                                    ),
+                                  ),
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Theme.of(context)
@@ -176,13 +300,28 @@ class QuantityPage extends StatelessWidget {
                                         IconButton(
                                           onPressed: () => decreaseQuantity(
                                               context, product),
-                                          icon: const Icon(Icons.remove_circle),
+                                          icon: Icon(
+                                            Icons.remove_circle,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary,
+                                          ),
                                         ),
-                                        Text(product.qty.toString()),
+                                        Text(product.qty.toString(),
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .inversePrimary,
+                                            )),
                                         IconButton(
                                           onPressed: () => increaseQuantity(
                                               context, product),
-                                          icon: const Icon(Icons.add_circle),
+                                          icon: Icon(
+                                            Icons.add_circle,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -200,9 +339,10 @@ class QuantityPage extends StatelessWidget {
             padding: const EdgeInsets.all(50.0),
             child: ShopButton(
               onTap: () => addProduct(context),
-              child: const Text('ADD PRODUCT',
+              child: Text('ADD PRODUCT',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                   )),
             ),
           ),

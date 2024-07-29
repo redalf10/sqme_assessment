@@ -13,6 +13,7 @@ class MyDrawer extends StatelessWidget {
           children: [
             Column(
               children: [
+                const SizedBox(height: 25),
                 const Icon(
                   Icons.shop_2,
                   size: 50,
@@ -49,15 +50,15 @@ class MyDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, '/orderPage');
                   },
                 ),
-                // MyListTile(
-                //   title: 'History',
-                //   icon: Icons.shop_2,
-                //   onTap: () {
-                //     Navigator.pop(context);
+                MyListTile(
+                  title: 'History',
+                  icon: Icons.history,
+                  onTap: () {
+                    Navigator.pop(context);
 
-                //     Navigator.pushNamed(context, '/historyPage');
-                //   },
-                // ),
+                    Navigator.pushNamed(context, '/historyPage');
+                  },
+                ),
               ],
             ),
             MyListTile(

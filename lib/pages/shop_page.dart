@@ -16,8 +16,11 @@ class ShopPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text(
+        title: Text(
           'Home',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.inversePrimary,
+          ),
         ),
       ),
       drawer: const MyDrawer(),
