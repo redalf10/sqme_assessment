@@ -1,5 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, unnecessary_to_list_in_spreads
 
+import 'package:assessment/components/drawer.dart';
 import 'package:assessment/services/database_helper.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -86,6 +87,7 @@ class _HistoryPageState extends State<HistoryPage> {
           style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
         ),
       ),
+      drawer: const MyDrawer(),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _orderHistory,
         builder: (context, snapshot) {

@@ -59,6 +59,15 @@ class MyDrawer extends StatelessWidget {
                     Navigator.pushNamed(context, '/historyPage');
                   },
                 ),
+                MyListTile(
+                  title: 'Settings',
+                  icon: Icons.settings,
+                  onTap: () {
+                    Navigator.pop(context);
+
+                    Navigator.pushNamed(context, '/settingsPage');
+                  },
+                ),
               ],
             ),
             MyListTile(

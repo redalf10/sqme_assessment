@@ -152,6 +152,7 @@ class CheckoutPage extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               Navigator.pushNamed(context, '/shopPage');
+              context.read<Shop>().clearCart();
             },
             child: Text(
               'OK',
