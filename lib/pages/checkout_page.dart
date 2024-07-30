@@ -204,7 +204,7 @@ class CheckoutPage extends StatelessWidget {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,7 +2,6 @@
 
 import 'package:assessment/services/database_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:convert';
 
 import 'package:intl/intl.dart';
@@ -114,7 +113,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.secondary,
+                      color: Theme.of(context).colorScheme.primary,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ExpansionTile(

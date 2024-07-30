@@ -5,7 +5,6 @@ import 'package:assessment/components/shop_button.dart';
 import 'package:assessment/model/shop_model.dart';
 import 'package:assessment/model/product_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
@@ -250,10 +249,6 @@ class QuantityPage extends StatelessWidget {
                               motion: const StretchMotion(),
                               children: [
                                 SlidableAction(
-                                  borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(10),
-                                    bottomRight: Radius.circular(10),
-                                  ),
                                   backgroundColor: Theme.of(context)
                                       .colorScheme
                                       .inversePrimary,
@@ -265,6 +260,22 @@ class QuantityPage extends StatelessWidget {
                                   },
                                   icon: Icons.delete,
                                 ),
+                                SlidableAction(
+                                  borderRadius: const BorderRadius.only(
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10),
+                                  ),
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary,
+                                  spacing: 1,
+                                  onPressed: (context) {
+                                    context
+                                        .read<Shop>()
+                                        .updateProduct(context, product);
+                                  },
+                                  icon: Icons.edit,
+                                ),
                               ],
                             ),
                             child: Container(
@@ -272,7 +283,7 @@ class QuantityPage extends StatelessWidget {
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                               child: Row(
                                 mainAxisAlignment:
